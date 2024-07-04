@@ -35,7 +35,6 @@ export type MarvelData = {
       url: string;
     }[];
   }[];
-  totalCount: number;
 };
 
 const PAGE_SIZE = 20;

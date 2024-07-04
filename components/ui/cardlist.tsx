@@ -2,7 +2,16 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const CardList = ({ currentCards }: { currentCards: any }) => {
+const CardList = ({
+  currentCards,
+}: {
+  currentCards: {
+    id: number;
+    name: string;
+    title: string;
+    thumbnail: { path: string; extension: string };
+  }[];
+}) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
       {currentCards.map((card) => (

@@ -22,21 +22,23 @@ import {
 import { IoIosSearch } from "react-icons/io";
 import { IoFilter } from "react-icons/io5";
 import CardList from "@/components/ui/cardlist";
-import { MarvelData } from "@/app/page";
+import { MarvelData } from "@/app/heroes/[pagination]/page";
 
 export default function HeroesPage({
   data,
   currentPage,
   totalPages,
-}: MarvelData) {
+}: MarvelData & { currentPage: number; totalPages: number }) {
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredData = data.filter((hero) =>
-    hero.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredData = data
+    .filter((hero) =>
+      hero.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .map((hero) => ({ ...hero, title: "" }));
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
