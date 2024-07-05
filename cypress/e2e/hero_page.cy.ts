@@ -1,6 +1,6 @@
 describe("Hero Page", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/hero/1011334");
+    cy.visit("/hero/1011334");
   });
 
   it("should navigate to the hero page", () => {
