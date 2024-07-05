@@ -16,6 +16,7 @@ const CardList = ({
       {currentCards.map((card) => (
         <div
           key={card.id}
+          data-cy="heroes-card"
           className="relative overflow-hidden rounded-lg hover:scale-105 transition-all duration-500 hover:shadow-lg"
         >
           <Link
