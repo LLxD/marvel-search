@@ -8,7 +8,6 @@ const CardList = ({
   currentCards: {
     id: number;
     name: string;
-    title: string;
     thumbnail: { path: string; extension: string };
   }[];
 }) => {
@@ -28,7 +27,7 @@ const CardList = ({
           </Link>
           <Image
             src={card.thumbnail.path + "." + card.thumbnail.extension}
-            alt={card.title}
+            alt={card.name}
             width={400}
             height={300}
             className="object-cover w-full h-60"

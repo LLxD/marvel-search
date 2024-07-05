@@ -39,11 +39,19 @@ export type MarvelData = {
 
 const PAGE_SIZE = 20;
 
-const Index = async ({ params }: { params: { pagination: string } }) => {
+const Index = async ({
+  params,
+  searchParams,
+}: {
+  params: { pagination: string };
+  searchParams: { query: string };
+}) => {
+  console.log(searchParams.query);
   const source = await getData(
     params.pagination
       ? { offset: (Number(params.pagination) - 1) * PAGE_SIZE }
-      : { offset: 0 }
+      : { offset: 0 },
+    searchParams.query || ""
   );
   const { data, currentPage, totalPages } = source;
   return (
@@ -53,15 +61,18 @@ const Index = async ({ params }: { params: { pagination: string } }) => {
 
 export default Index;
 
-async function getData({ offset }: { offset: number }) {
+async function getData({ offset }: { offset: number }, query: string) {
   // this layer works as a BFF, fetching and formatting data for the UI
   const timestamp = new Date().getTime();
   const hash = md5(
     `${timestamp}${process.env.PRIVATE_MARVEL_KEY}${process.env.NEXT_PUBLIC_MARVEL_KEY}`
   );
-  const res = await fetch(
-    `http://gateway.marvel.com/v1/public/characters?ts=${timestamp}&apikey=${process.env.NEXT_PUBLIC_MARVEL_KEY}&hash=${hash}&offset=${offset}`
-  );
+
+  const offsetUrl = offset ? `offset=${offset}` : "";
+  const queryUrl = query ? `nameStartsWith=${query}` : "";
+  const apiUrl = `${process.env.NEXT_PUBLIC_MARVEL_API}/characters?ts=${timestamp}&apikey=${process.env.NEXT_PUBLIC_MARVEL_KEY}&hash=${hash}`;
+
+  const res = await fetch(`${apiUrl}&${offsetUrl}&${queryUrl}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch data");

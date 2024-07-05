@@ -37,10 +37,11 @@ type HeroPageProps = {
 };
 
 export default function HeroPage({ data }: HeroPageProps) {
-  const comics = data[0].comics.items.map((comic) => comic.name);
-  const series = data[0].series.items.map((serie) => serie.name);
-  const stories = data[0].stories.items.map((story) => story.name);
-  const events = data[0].events.items.map((event) => event.name);
+  const hero = data[0];
+  const comics = hero.comics.items.map((comic) => comic.name);
+  const series = hero.series.items.map((serie) => serie.name);
+  const stories = hero.stories.items.map((story) => story.name);
+  const events = hero.events.items.map((event) => event.name);
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6 md:p-10">
@@ -48,21 +49,19 @@ export default function HeroPage({ data }: HeroPageProps) {
         <div className="flex flex-col items-center gap-4">
           <Avatar className="w-32 h-32">
             <AvatarImage
-              src={`${data[0].thumbnail.path}.${data[0].thumbnail.extension}`}
+              src={`${hero.thumbnail.path}.${hero.thumbnail.extension}`}
             />
-            <AvatarFallback>{data[0].name.charAt(0)}</AvatarFallback>
+            <AvatarFallback>{hero.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="text-center">
-            <h1 className="text-2xl font-bold">{data[0].name}</h1>
+            <h1 className="text-2xl font-bold">{hero.name}</h1>
           </div>
         </div>
         <div className="space-y-6">
           <div>
             <h2 className="text-xl font-semibold">About</h2>
             <p className="text-muted-foreground">
-              {data[0].description === ""
-                ? "No description"
-                : data[0].description}
+              {hero.description === "" ? "No description" : hero.description}
             </p>
           </div>
         </div>
