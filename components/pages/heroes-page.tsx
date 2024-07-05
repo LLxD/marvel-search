@@ -10,6 +10,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
+import {
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  BarChart,
+  Bar,
+} from "recharts";
+
 import { Button } from "@/components/ui/button";
 import {
   Pagination,
@@ -31,7 +42,17 @@ export default function HeroesPage({
   data,
   currentPage,
   totalPages,
-}: MarvelData & { currentPage: number; totalPages: number }) {
+  comicsPerCharacter,
+}: MarvelData & {
+  currentPage: number;
+  totalPages: number;
+  comicsPerCharacter: [
+    {
+      name: string;
+      comicsCount: number;
+    }
+  ];
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(searchParams.get("query") || "");
@@ -67,6 +88,34 @@ export default function HeroesPage({
         </form>
       </div>
       <CardList currentCards={data} />
+      <section className="max-w-2xl mx-auto pt-20">
+        <h2 className="text-2xl font-bold pb-12">
+          Comics per character on this page
+        </h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart
+            width={600}
+            height={400}
+            data={comicsPerCharacter}
+            margin={{
+              top: 5,
+              right: 30,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Bar
+              type="monotone"
+              dataKey="comicsCount"
+              fill="#A50000"
+              label={{ position: "top", fontSize: 14 }}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </section>
       <div className="flex items-center justify-center mt-8">
         <Pagination>
           <PaginationContent>

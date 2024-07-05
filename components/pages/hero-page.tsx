@@ -1,4 +1,6 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 type HeroPageProps = {
   data: {
@@ -45,7 +47,12 @@ export default function HeroPage({ data }: HeroPageProps) {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6 md:p-10">
-      <div className="grid md:grid-cols-[200px_1fr] gap-8">
+      <Link href={"/"} passHref>
+        <Button className="py-4" variant={"outline"}>
+          Back
+        </Button>
+      </Link>
+      <div className="grid gap-8">
         <div className="flex flex-col items-center gap-4">
           <Avatar className="w-32 h-32">
             <AvatarImage
@@ -66,7 +73,6 @@ export default function HeroPage({ data }: HeroPageProps) {
           </div>
         </div>
       </div>
-      {/* create beautiful sections for each one of the data a hero has */}
       <div className="mt-8">
         <h2 className="text-xl font-semibold">Comics</h2>
         <ul className="list-disc list-inside">

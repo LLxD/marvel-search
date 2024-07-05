@@ -46,16 +46,20 @@ const Index = async ({
   params: { pagination: string };
   searchParams: { query: string };
 }) => {
-  console.log(searchParams.query);
   const source = await getData(
     params.pagination
       ? { offset: (Number(params.pagination) - 1) * PAGE_SIZE }
       : { offset: 0 },
     searchParams.query || ""
   );
-  const { data, currentPage, totalPages } = source;
+  const { data, currentPage, totalPages, comicsPerCharacter } = source;
   return (
-    <HeroesPage currentPage={currentPage} data={data} totalPages={totalPages} />
+    <HeroesPage
+      currentPage={currentPage}
+      data={data}
+      totalPages={totalPages}
+      comicsPerCharacter={comicsPerCharacter}
+    />
   );
 };
 
@@ -80,9 +84,24 @@ async function getData({ offset }: { offset: number }, query: string) {
 
   const data = await res.json();
 
+  const comicsPerCharacter = data.data.results.map(
+    (character: {
+      name: string;
+      comics: {
+        available: number;
+      };
+    }) => {
+      return {
+        name: character.name,
+        comicsCount: character.comics.available,
+      };
+    }
+  );
+
   return {
     data: data.data.results,
     currentPage: offset / PAGE_SIZE + 1,
     totalPages: Math.ceil(data.data.total / PAGE_SIZE),
+    comicsPerCharacter,
   };
 }
