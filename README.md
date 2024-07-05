@@ -25,3 +25,4 @@ Technologies used in this project:
 - [Shadcnui](https://ui.shadcn.com/)
 - [pnpm](https://pnpm.io/)
 - [Lucide](https://lucide.dev/)
+- [Cypress](https://www.cypress.io/)
